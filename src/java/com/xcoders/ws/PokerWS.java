@@ -5,6 +5,7 @@
 package com.xcoders.ws;
 
 import com.xcoders.controller.GameController;
+import com.xcoders.gameitems.Card;
 import com.xcoders.gameitems.Player;
 import com.xcoders.gameitems.Table;
 import java.util.ArrayList;
@@ -64,6 +65,36 @@ public class PokerWS {
     @WebMethod(operationName = "getTable")
     public Table getTable(@WebParam(name = "tableId") Integer tableId) throws PokerException{
         return new GameController().getTable(getSession(), tableId);
+    }
+    
+    @WebMethod(operationName = "placeSmallBind")
+    public void placeSmallBind(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "amount") Integer amount) throws PokerException{
+        
+    }
+    
+    @WebMethod(operationName = "placeBigBind")
+    public void placeBigBind(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "amount") Integer amount) throws PokerException{
+        
+    }
+    
+    @WebMethod(operationName = "discardCard")
+    public void discardCard(@WebParam(name = "tableId") Integer tableId, @WebParam(name = "playerId") Long playerId,@WebParam(name = "card") Card card) throws PokerException{
+    
+    }
+    
+    @WebMethod(operationName = "bet")
+    public void bet(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
+    
+    }
+    
+    @WebMethod(operationName = "fold")
+    public void fold(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
+    
+    }
+    
+    @WebMethod(operationName = "check")
+    public void check(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
+    
     }
     
 }

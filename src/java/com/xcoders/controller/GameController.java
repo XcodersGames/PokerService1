@@ -5,6 +5,7 @@
 package com.xcoders.controller;
 
 import com.xcoders.entity.Member;
+import com.xcoders.gameitems.Card;
 import com.xcoders.gameitems.Player;
 import com.xcoders.gameitems.Table;
 import com.xcoders.jpacontroller.MemberJpaController;
@@ -99,6 +100,30 @@ public class GameController {
         throw new PokerException("table not found");
     }
     
+    public void placeSmallBind(Integer tableId,Integer amount) throws PokerException{
+        
+    }
+    
+    public void placeBigBind(Integer tableId,Integer amount) throws PokerException{
+        
+    }
+    
+    public void discardCard(Integer tableId,Long playerId, Card card) throws PokerException{
+    
+    }
+    
+    public void bet(Integer tableId,Long playerId,Integer amount) throws PokerException{
+    
+    }
+    
+    public void fold(Integer tableId,Long playerId,Integer amount) throws PokerException{
+    
+    }
+    
+    public void check(Integer tableId,Long playerId,Integer amount) throws PokerException{
+    
+    }
+    
     //game logic
     
     private void startGame(Table table){
@@ -108,5 +133,25 @@ public class GameController {
             table.setBigBindId(2);
         }
         table.setStatus(Table.STARTED);
+    }
+    
+    private void dealPlayerCards(Table table){
+    
+    }
+    
+    private void flop(Table table){
+    
+    }
+    
+    private void turn(Table table){
+    
+    }
+    
+    private void river(Table table){
+    
+    }
+    
+    private void dividePot(Table table){
+    
     }
 }

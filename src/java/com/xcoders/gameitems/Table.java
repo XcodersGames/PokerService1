@@ -14,14 +14,14 @@ public class Table implements Serializable {
     private static final long serialVersionUID = 1L;
     
     public static final int WAITING = 0;
-    public static final int STARTED = 0;
-    public static final int WAIT_SMALLBIND = 0;
-    public static final int WAIT_BIGBIND = 0;
-    public static final int PRE_FLOP = 0;
+    public static final int STARTED = 1;
+    public static final int WAIT_SMALLBIND = 2;
+    public static final int WAIT_BIGBIND = 3;
+    public static final int PRE_FLOP = 4;
     public static final int FLOP = 0;
-    public static final int POST_FLOP = 0;
+    public static final int POST_FLOP = 5;
     public static final int TURN= 0;
-    public static final int POST_TURN = 0;
+    public static final int POST_TURN = 6;
     public static final int RIVER = 0;
     public static final int SHOWDOWN = 0;
     
