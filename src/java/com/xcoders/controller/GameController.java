@@ -34,6 +34,7 @@ public class GameController {
             Table t = new Table();
             t.setId(1);
             t.addPlayer(p);
+            t.setStatus(Table.WAITING);
             tables.add(t);
             session.setAttribute("tables", tables);
             return 1;
@@ -43,7 +44,10 @@ public class GameController {
                 if (table.hasSeats()) {                   
                     //add player to table
                     table.addPlayer(p);
-                    session.setAttribute("tables", tables);
+                    if (table.getNumberOfPlayers() >= 2) {
+                        startGame(table);
+                    }
+                    //session.setAttribute("tables", tables);
                     //return the table number
                     return table.getId();
                 }
@@ -53,6 +57,7 @@ public class GameController {
             Integer tableId = tables.size() + 1;
             t.setId(tableId);
             t.addPlayer(p);
+            t.setStatus(Table.WAITING);
             tables.add(t);
             // add the table to session and return the id of new table
             session.setAttribute("tables", tables);
@@ -103,6 +108,7 @@ public class GameController {
             throw new PokerException("This player cannot place small bind");
         }        
         table.getPlayers()[table.getSmallBindId()].setBet(amount);
+        table.setStatus(Table.WAIT_BIGBIND);
     }
     
     public void placeBigBind(HttpSession session,Integer tableId,Long userId,Integer amount) throws PokerException{
@@ -115,6 +121,7 @@ public class GameController {
             throw new PokerException("This player cannot place big bind");
         }        
         table.getPlayers()[table.getBigBindId()].setBet(amount);
+        table.setStatus(Table.PRE_FLOP);
     }
     
     public void discardCard(HttpSession session,Integer tableId,Long playerId, Card card) throws PokerException{
@@ -154,11 +161,18 @@ public class GameController {
     
     private void startGame(Table table){
         if (table.getDealerId() == null) {
-            table.setDealerId(0);
-            table.setSmallBindId(1);
-            table.setBigBindId(2);
+            if (table.getNumberOfPlayers() > 2) {
+                table.setDealerId(0);
+                table.setSmallBindId(1);
+                table.setBigBindId(2);
+            }else{
+                table.setDealerId(0);
+                table.setSmallBindId(0);
+                table.setBigBindId(2);
+            }
+            
         }
-        table.setStatus(Table.STARTED);
+        table.setStatus(Table.WAIT_SMALLBIND);
     }
     
     //to be written by viji
@@ -188,6 +202,10 @@ public class GameController {
     
     //to be written by viji
     private void reArrangeCards(Card[] cards){
+    
+    }
+    
+    private void selectNextActivePlayer(Table table){
     
     }
 }
