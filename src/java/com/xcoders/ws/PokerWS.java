@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.xcoders.ws;
 
 import com.xcoders.controller.GameController;
@@ -22,10 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-/**
- *
- * @author linux
- */
+
 @WebService
 @SOAPBinding(style = Style.RPC)
 public class PokerWS {

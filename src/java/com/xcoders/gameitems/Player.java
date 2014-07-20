@@ -1,22 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.xcoders.gameitems;
 
 import java.io.Serializable;
 
-/**
- *
- * @author linux
- */
+
 public class Player implements Serializable{
     private static final long serialVersionUID = 1L;
+    
+    public static final int WAITING = 0;
+    public static final int INACTIVE = 1;
+    public static final int ACTIVE = 2;
+    public static final int FOLDED = 3;
+    
     private Long id;
     private String name;
     private Card[] cards;
     private Integer money;
-    private Integer role;
+    private Integer bet;
+    private Integer status;
     
     public Long getId() {
         return id;
@@ -49,6 +49,23 @@ public class Player implements Serializable{
     public void setMoney(Integer money) {
         this.money = money;
     }
+
+    public Integer getBet() {
+        return bet;
+    }
+
+    public void setBet(Integer bet) {
+        this.bet = bet;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+    
     
     
 }

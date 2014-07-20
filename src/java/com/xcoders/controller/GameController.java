@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.xcoders.controller;
 
 import com.xcoders.entity.Member;
@@ -14,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author ravindu
- */
+
 public class GameController {
     //WS Methods
     public Integer joinGame(HttpSession session,Long id) {
@@ -100,23 +93,56 @@ public class GameController {
         throw new PokerException("table not found");
     }
     
-    public void placeSmallBind(Integer tableId,Integer amount) throws PokerException{
+    public void placeSmallBind(HttpSession session,Integer tableId,Long userId,Integer amount) throws PokerException{
+        Table table = getTable(session, tableId);
+        if (!table.getStatus().equals(Table.WAIT_SMALLBIND)) {
+            throw new PokerException("Table is not waiting for small bind");
+        }
         
+        if (!table.getPlayers()[table.getSmallBindId()].getId().equals(userId)) {
+            throw new PokerException("This player cannot place small bind");
+        }        
+        table.getPlayers()[table.getSmallBindId()].setBet(amount);
     }
     
-    public void placeBigBind(Integer tableId,Integer amount) throws PokerException{
+    public void placeBigBind(HttpSession session,Integer tableId,Long userId,Integer amount) throws PokerException{
+        Table table = getTable(session, tableId);
+        if (!table.getStatus().equals(Table.WAIT_SMALLBIND)) {
+            throw new PokerException("Table is not waiting for big bind");
+        }
         
+        if (!table.getPlayers()[table.getBigBindId()].getId().equals(userId)) {
+            throw new PokerException("This player cannot place big bind");
+        }        
+        table.getPlayers()[table.getBigBindId()].setBet(amount);
     }
     
-    public void discardCard(Integer tableId,Long playerId, Card card) throws PokerException{
+    public void discardCard(HttpSession session,Integer tableId,Long playerId, Card card) throws PokerException{
+        Table table = getTable(session, tableId);
+        for (Player p : table.getPlayers()) {
+            if (p == null) {
+                continue;
+            }            
+            if (p.getId().equals(playerId)) {                
+                for ( int i = 0; i < p.getCards().length; i++) {
+                    Card c = p.getCards()[i];
+                    if (c.equals(card)) {
+                        p.getCards()[i] = null;
+                        reArrangeCards(p.getCards());                        
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    
+    public void bet(HttpSession session,Integer tableId,Long playerId,Integer amount) throws PokerException{
     
     }
     
-    public void bet(Integer tableId,Long playerId,Integer amount) throws PokerException{
-    
-    }
-    
-    public void fold(Integer tableId,Long playerId,Integer amount) throws PokerException{
+    //to be written by viji
+    public void fold(Integer tableId,Long playerId) throws PokerException{
     
     }
     
@@ -135,23 +161,33 @@ public class GameController {
         table.setStatus(Table.STARTED);
     }
     
+    //to be written by viji
     private void dealPlayerCards(Table table){
     
     }
     
+    //to be written by viji
     private void flop(Table table){
     
     }
     
+    //to be written by viji
     private void turn(Table table){
     
     }
     
+    //to be written by viji
     private void river(Table table){
     
     }
     
+    //to be written by ishantha
     private void dividePot(Table table){
+    
+    }
+    
+    //to be written by viji
+    private void reArrangeCards(Card[] cards){
     
     }
 }
