@@ -104,19 +104,21 @@ public class GameController {
             throw new PokerException("Table is not waiting for small bind");
         }
         
+        System.out.println("table->sm ID :" +table.getPlayers()[table.getSmallBindId()].getId() + " snd id : " + userId);
         if (!table.getPlayers()[table.getSmallBindId()].getId().equals(userId)) {
             throw new PokerException("This player cannot place small bind");
         }        
         table.getPlayers()[table.getSmallBindId()].setBet(amount);
         table.setStatus(Table.WAIT_BIGBIND);               
         table.getPlayers()[table.getSmallBindId()].setStatus(Player.INACTIVE);
+        System.out.println("");
         table.getPlayers()[table.getBigBindId()].setStatus(Player.ACTIVE);
         System.out.println("small bind set : " + amount);
     }
     
     public void placeBigBind(HttpSession session,Integer tableId,Long userId,Integer amount) throws PokerException{
         Table table = getTable(session, tableId);
-        if (!table.getStatus().equals(Table.WAIT_SMALLBIND)) {
+        if (!table.getStatus().equals(Table.WAIT_BIGBIND)) {
             throw new PokerException("Table is not waiting for big bind");
         }
         
@@ -180,7 +182,7 @@ public class GameController {
             }else{
                 table.setDealerId(0);
                 table.setSmallBindId(0);
-                table.setBigBindId(2);
+                table.setBigBindId(1);
             }
             
         }
