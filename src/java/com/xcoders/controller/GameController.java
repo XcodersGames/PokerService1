@@ -24,7 +24,7 @@ public class GameController {
         p.setId(id);
         p.setName(m.getUserName());
         p.setMoney(m.getScore() < 2000? 2000 : m.getScore());
-        
+        p.setStatus(Player.WAITING);
         
         //get the tables from session
         List<Table> tables = (List<Table>) session.getAttribute("tables");         
@@ -108,7 +108,10 @@ public class GameController {
             throw new PokerException("This player cannot place small bind");
         }        
         table.getPlayers()[table.getSmallBindId()].setBet(amount);
-        table.setStatus(Table.WAIT_BIGBIND);
+        table.setStatus(Table.WAIT_BIGBIND);               
+        table.getPlayers()[table.getSmallBindId()].setStatus(Player.INACTIVE);
+        table.getPlayers()[table.getBigBindId()].setStatus(Player.ACTIVE);
+        System.out.println("small bind set : " + amount);
     }
     
     public void placeBigBind(HttpSession session,Integer tableId,Long userId,Integer amount) throws PokerException{
@@ -122,6 +125,15 @@ public class GameController {
         }        
         table.getPlayers()[table.getBigBindId()].setBet(amount);
         table.setStatus(Table.PRE_FLOP);
+        table.getPlayers()[table.getBigBindId()].setStatus(Player.INACTIVE);
+        if (table.getBigBindId() != 5) {
+            if (table.getPlayers()[table.getBigBindId() + 1] != null) {
+                table.getPlayers()[table.getBigBindId() + 1].setStatus(Player.ACTIVE);
+            }
+        }else{
+            table.getPlayers()[0].setStatus(Player.ACTIVE);
+        }
+        System.out.println("big bind set : " + amount);
     }
     
     public void discardCard(HttpSession session,Integer tableId,Long playerId, Card card) throws PokerException{
@@ -149,11 +161,11 @@ public class GameController {
     }
     
     //to be written by viji
-    public void fold(Integer tableId,Long playerId) throws PokerException{
+    public void fold(HttpSession session,Integer tableId,Long playerId) throws PokerException{
     
     }
     
-    public void check(Integer tableId,Long playerId,Integer amount) throws PokerException{
+    public void check(HttpSession session,Integer tableId,Long playerId,Integer amount) throws PokerException{
     
     }
     
@@ -173,6 +185,13 @@ public class GameController {
             
         }
         table.setStatus(Table.WAIT_SMALLBIND);
+        for (Player player : table.getPlayers()) {
+            if (player == null) {
+                continue;
+            }
+            player.setStatus(Player.INACTIVE);
+        }
+        table.getPlayers()[table.getSmallBindId()].setStatus(Player.ACTIVE);
     }
     
     //to be written by viji
