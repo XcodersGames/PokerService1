@@ -1,6 +1,7 @@
 package com.xcoders.gameitems;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /*
  * To change this template, choose Tools | Templates
@@ -15,9 +16,10 @@ import java.io.Serializable;
 public class CardPack implements Serializable{
     private static final long serialVersionUID = 1L;
     private Card[] cards;
-
+     private final int TOTAL_CARDS = 52;
+     
     public CardPack() {
-        cards = new Card[52];
+        cards = new Card[TOTAL_CARDS];
         
         // creates a new card pack with the 4 types
         // cards from 2 -10 and
@@ -49,6 +51,27 @@ public class CardPack implements Serializable{
     
     public Card[] getCards(){
         return cards;
+    }
+    
+    public void shuffle() {
+        Random randNo=new Random();
+       for(int i=0;i<cards.length;i++){
+            int j=randNo.nextInt(TOTAL_CARDS);
+            Card card1=cards[i];
+            cards[i]=cards[j];
+            cards[j]=card1;
+        }
+    }
+
+    
+    int j=0;
+    public Card[] getCards(int n) {
+        Card[] fewCards=new Card[n];
+        for(int i=0;i<n;i++){
+            fewCards[i]=cards[j];
+            j++;
+        }
+        return fewCards;
     }
     
 }

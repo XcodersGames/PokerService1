@@ -77,17 +77,18 @@ public class PokerWS {
     
     @WebMethod(operationName = "bet")
     public void bet(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
-    
+        new GameController().bet(session, tableId, playerId, amount);
     }
     
     @WebMethod(operationName = "fold")
-    public void fold(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
+    public void fold(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId) throws PokerException{
         new GameController().fold(getSession(),tableId, playerId);
     }
     
+    /*
     @WebMethod(operationName = "check")
     public void check(@WebParam(name = "tableId") Integer tableId,@WebParam(name = "playerId") Long playerId,@WebParam(name = "amount") Integer amount) throws PokerException{
         new GameController().check(getSession(),tableId, playerId, amount);
-    }
+    }*/
     
 }
