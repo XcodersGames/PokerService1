@@ -91,6 +91,11 @@ public class Card implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" + getCardTypeName() + ":" + getCardValueName() + '}';
+    }
     
     
 }

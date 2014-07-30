@@ -18,6 +18,7 @@ public class Player implements Serializable{
     private Integer money;
     private Integer bet;
     private Integer status;
+    private Boolean hasDiscardedThirdCard = false;
     
     public Long getId() {
         return id;
@@ -65,6 +66,14 @@ public class Player implements Serializable{
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Boolean isHasDiscardedThirdCard() {
+        return hasDiscardedThirdCard;
+    }
+
+    public void setHasDiscardedThirdCard(Boolean hasDiscardedThirdCard) {
+        this.hasDiscardedThirdCard = hasDiscardedThirdCard;
     }
 
     @Override

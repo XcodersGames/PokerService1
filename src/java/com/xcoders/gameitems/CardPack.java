@@ -16,7 +16,7 @@ import java.util.Random;
 public class CardPack implements Serializable{
     private static final long serialVersionUID = 1L;
     private Card[] cards;
-     private final int TOTAL_CARDS = 52;
+    private final int TOTAL_CARDS = 52;
      
     public CardPack() {
         cards = new Card[TOTAL_CARDS];
@@ -54,9 +54,16 @@ public class CardPack implements Serializable{
     }
     
     public void shuffle() {
-        Random randNo=new Random();
+       Random randNo=new Random();
        for(int i=0;i<cards.length;i++){
             int j=randNo.nextInt(TOTAL_CARDS);
+            
+            /*int j;
+            int[] numbersTaken = new int[TOTAL_CARDS];
+            do(j=randNo.nextInt(TOTAL_CARDS)){
+           
+            }while(j==num);*/
+            
             Card card1=cards[i];
             cards[i]=cards[j];
             cards[j]=card1;

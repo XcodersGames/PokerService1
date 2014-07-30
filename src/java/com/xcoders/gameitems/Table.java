@@ -13,10 +13,11 @@ public class Table implements Serializable {
     public static final int PRE_FLOP = 4;
     public static final int FLOP = 0;
     public static final int POST_FLOP = 5;
+    public static final int WAIT_CARD_DISCARD = 6;
     public static final int TURN= 0;
-    public static final int POST_TURN = 6;
+    public static final int POST_TURN = 7;
     public static final int RIVER = 0;
-    public static final int SHOWDOWN = 7;
+    public static final int SHOWDOWN = 8;
     
     private Integer dealerId;
     private Integer smallBindId;
@@ -150,6 +151,16 @@ public class Table implements Serializable {
         this.maxBet = maxBet;
     }
     
+    public void selectFristPlayerActive(){
+        for (Player player : players) {
+            if (player == null || !player.getStatus().equals(Player.ACTIVE)) {
+                continue;
+            }
+            player.setStatus(Player.INACTIVE);
+        }
+        players[0].setStatus(Player.ACTIVE);
+    }
+    
     public Integer selectNextActivePlayer() {
         int activePlayerIndex = 0;
         
@@ -174,9 +185,17 @@ public class Table implements Serializable {
         //is inactive (not folded,not all in)
         while(players[activePlayerIndex] == null || !players[activePlayerIndex].getStatus().equals(Player.INACTIVE) ){
            System.out.println("3.active player index -> " + activePlayerIndex + " " +players[activePlayerIndex] );
-          //  activePlayerIndex = activePlayerIndex == players.length - 1 ? 0 : activePlayerIndex + 1 ;
+           activePlayerIndex = activePlayerIndex == players.length - 1 ? 0 : activePlayerIndex + 1 ;
         }
         players[activePlayerIndex].setStatus(Player.ACTIVE);
+        
+        for (Player player : players) {
+            if (player == null) {
+                continue;
+            }
+            System.out.println("p : " + player.getId() + " " + player.getName() + " " + player.getStatus() + " " + player.getBet() + " " + player.getMoney());
+        }
+        
         return activePlayerIndex;
     }
     
@@ -191,6 +210,18 @@ public class Table implements Serializable {
             }
         }
         return -1;
+    }
+
+    public Boolean allPlayersDiscardedCard() {
+        for (Player player : players) {
+            if (player == null) {
+                continue;
+            }
+            if (!player.isHasDiscardedThirdCard()) {
+                return false;
+            }
+        }
+        return true;
     }
     
     
